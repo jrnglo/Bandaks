@@ -21,7 +21,7 @@
 
         .lgn{
          width: 100%;   
-         margin-top: 78px;
+         margin-top: 80px;
         }
         a{
             text-decoration: none;
@@ -34,8 +34,13 @@
             margin-bottom: 10px;
         }
         footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
             text-align: center;
-            padding: 10px 0;
+            padding: 10px;
         }
         @media (max-width: 768px) {
             .container {
@@ -51,13 +56,28 @@
         }
         .centered-image img {
             display: block;
-            margin: 70px auto 50px;
-            max-width: 20%;
+            margin: 50px auto 50px;
+            max-width: 25%;
             height: auto;
         }
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Band Aid</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">About
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+        </div>
+    </nav>
     <div class="container">
         <form>
             <div class="centered-image">
@@ -73,12 +93,13 @@
             <button type="button" id="copy-all-btn" class="cpy btn btn-secondary">Copy</button>
             <br>
             <br>
-<p><small>You need to sign in first before creating recommendations, Account are auto generated and one time use only.</small></p>
+            <p><small>You need to sign in first before creating recommendations, Account are auto generated and one time use only.</small></p>
+            <p><small>Band Aid is an innovative platform that not only allows you to share your music taste with anyone, Band Aid also recognizes the importance of discovery in the world of music..</small></p>
             <button type="button" id="copy-all-btn" class="lgn btn btn-primary"><a href="login.html">Login</a></button>
         </form>
     </div>
     <footer>
-        &copy;Band Aid
+        &copy;Band Aid | Jaru Angelo D. Roces
     </footer>
     <script src="script.js"></script>
     <script>
