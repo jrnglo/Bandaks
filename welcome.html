@@ -13,10 +13,12 @@
         .container {
             margin-top: 30px;
         }
-        .lgn{
-         width: 100%;   
-         margin-top: 10px;
+
+        .lgn {
+            width: 100%;
+            margin-top: 10px;
         }
+
         header {
             text-align: center;
             background-color: #343a40;
@@ -37,19 +39,16 @@
 
         .band-card {
             width: 250px;
-            background-color: #fff;
-            border: 1px solid #ccc;
             margin: 10px;
-            padding: 10px;
-            border-radius: 5px;
             text-align: center;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-            cursor: pointer; /* Add pointer cursor to indicate interactivity */
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
-        .band-image {
-            max-width: 100%;
-            height: auto;
+        .band-card img {
+            width: 100%;
+            max-height: 200px;
         }
 
         .band-name {
@@ -57,42 +56,85 @@
             margin: 10px 0;
         }
 
-        .selected {
-            background-color: #cce5ff; /* Add a background color to indicate selection */
+        .selected-card {
+            background-color: #cce5ff;
         }
+
         footer {
             text-align: center;
             padding: 10px 0;
         }
+
         @media (max-width: 768px) {
             .container {
                 margin-top: 10px;
             }
-
-            .form-control {
-                width: 100%;
-            }
         }
+
+        .form-control {
+            width: 100%;
+        }
+
         .centered-image {
             text-align: center;
         }
+
         .centered-image img {
             display: block;
             margin: 70px auto 50px;
             max-width: 20%;
             height: auto;
         }
-        .selected-card {
-            background-color: #cce5ff; /* Add background color to indicate selection */
-        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Band Aid</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Create Recommendations
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="logout-btn" onclick="logout()">Logout</a>
+                    </li>
+        </div>
+    </nav>
+<div class="container">
     <div class="centered-image">
         <img src="icon.png" alt="Centered Image" class="img-fluid">
     </div>
+    <div class="mb-3">
+        <input type="text" class="form-control" id="search-input" placeholder="Search bands">
+    </div>
     <main id="bands-list">
+        <!-- Define your bands using HTML with unique IDs -->
+        <div class="band-card" data-band-id="1">
+            <img src="https://www.altpress.com/wp-content/uploads/2019/06/06/sleeping-with-sirens-2019.jpg" alt="Sleeping With Sirens">
+            <div class="band-name">Sleeping With Sirens</div>
+        </div>
+        <div class="band-card" data-band-id="2">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/20140522T121531147.jpg" alt="Mayday Parade">
+            <div class="band-name">Mayday Parade</div>
+        </div>
+        <div class="band-card" data-band-id="3">
+            <img src="https://i.ytimg.com/vi/RRKJiM9Njr8/maxresdefault.jpg" alt="My Chemical Romance">
+            <div class="band-name">My Chemical Romance</div>
+        </div>
+        <div class="band-card" data-band-id="4">
+            <img src="https://1000logos.net/wp-content/uploads/2020/02/Asking-Alexandria-emblem.jpg" alt="Asking Alexandria">
+            <div class="band-name">Asking Alexandria</div>
+        </div>
+        <div class="band-card" data-band-id="5">
+            <img src="https://slipknotmerch.com/cdn/shop/files/SLIP-0168_DC_ShareIMG-01_23b88b67-9969-41ac-8de1-cbc16ea8ecb3_1_grande.png?v=1686315720" alt="Slipknot">
+            <div class="band-name">Slipknot</div>
+        </div>
     </main>
     <button class="lgn btn btn-primary" id="generate-link-btn">Generate Link</button>
     <div class="generated-url">
@@ -100,94 +142,54 @@
         <input type="text" id="generated-url" readonly>
     </div>
     <script>
-        const bandsList = document.getElementById("bands-list");
         const selectedBands = [];
-
-        const punkBands = [
-            {
-                name: "Sleeping With Sirens",
-                image: "https://www.altpress.com/wp-content/uploads/2019/06/06/sleeping-with-sirens-2019.jpg",
-            },
-            {
-                name: "Mayday Parade",
-                image: "https://upload.wikimedia.org/wikipedia/commons/3/3f/20140522T121531147.jpg",
-            },
-            {
-                name: "My Chemical Romance",
-                image: "https://i.ytimg.com/vi/RRKJiM9Njr8/maxresdefault.jpg",
-            },
-            {
-                name: "Asking Alexandria",
-                image: "https://1000logos.net/wp-content/uploads/2020/02/Asking-Alexandria-emblem.jpg",
-            },
-            {
-                name: "Slipknot",
-                image: "https://slipknotmerch.com/cdn/shop/files/SLIP-0168_DC_ShareIMG-01_23b88b67-9969-41ac-8de1-cbc16ea8ecb3_1_grande.png?v=1686315720",
-            },
-            // Add more bands with their details
-        ];
-
-        punkBands.forEach((band) => {
-            const bandCard = document.createElement("div");
-            bandCard.classList.add("band-card");
-
-            const bandImage = document.createElement("img");
-            bandImage.classList.add("band-image");
-            bandImage.src = band.image;
-            bandImage.alt = band.name;
-
-            const bandName = document.createElement("div");
-            bandName.classList.add("band-name");
-            bandName.textContent = band.name;
-
-            bandCard.addEventListener("click", () => {
-                toggleBandSelection(band, bandCard);
-            });
-
-            bandCard.appendChild(bandImage);
-            bandCard.appendChild(bandName);
-            bandsList.appendChild(bandCard);
-        });
-
-        function toggleBandSelection(band, bandCard) {
-            const bandIndex = selectedBands.findIndex((selectedBand) => selectedBand.name === band.name);
-
-            if (bandIndex === -1) {
-                selectedBands.push(band);
-                bandCard.classList.add("selected");
-            } else {
-                selectedBands.splice(bandIndex, 1);
-                bandCard.classList.remove("selected");
-            }
-        }
 
         const generateLinkButton = document.getElementById("generate-link-btn");
         generateLinkButton.addEventListener("click", generateLink);
 
         function generateLink() {
-            const selectedBandNames = selectedBands.map((band) => band.name);
-            const hash = getRandomHash();
-            const generatedUrl = `${window.location.origin}${window.location.pathname}#bands=${selectedBandNames.join(",")}&hash=${hash}`;
+            const selectedBandIds = selectedBands.map((band) => band.id);
+            const generatedUrl = `http://localhost/MITAPP/bands.html?bands=${selectedBandIds.join(",")}`;
 
             const generatedUrlInput = document.getElementById("generated-url");
             generatedUrlInput.value = generatedUrl;
+        }
 
-            // Clear selection
-            selectedBands.forEach((band) => {
-                const bandCard = Array.from(document.querySelectorAll(".band-card")).find(
-                    (card) => card.querySelector(".band-name").textContent === band.name
-                );
+        const searchInput = document.getElementById("search-input");
+        searchInput.addEventListener("input", filterBands);
 
-                if (bandCard) {
-                    bandCard.classList.remove("selected");
-                }
+        function filterBands() {
+            const searchValue = searchInput.value.toLowerCase();
+
+            document.querySelectorAll(".band-card").forEach((bandCard) => {
+                const bandName = bandCard.querySelector(".band-name").innerText.toLowerCase();
+                const isVisible = bandName.includes(searchValue);
+                bandCard.style.display = isVisible ? "block" : "none";
             });
         }
 
-        function getRandomHash() {
-            return Math.random().toString(36).substring(7);
+        document.querySelectorAll(".band-card").forEach((bandCard) => {
+            bandCard.addEventListener("click", () => {
+                toggleBandSelection(bandCard);
+            });
+        });
+
+        function toggleBandSelection(bandCard) {
+            const bandId = bandCard.getAttribute("data-band-id");
+            const bandIndex = selectedBands.findIndex((selectedBand) => selectedBand.id === bandId);
+
+            if (bandIndex === -1) {
+                selectedBands.push({ id: bandId });
+                bandCard.classList.add("selected-card");
+            } else {
+                selectedBands.splice(bandIndex, 1);
+                bandCard.classList.remove("selected-card");
+            }
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </div>
 <footer>
     &copy; Band Aid
